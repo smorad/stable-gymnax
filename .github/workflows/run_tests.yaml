@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        python: ['3.11']
+        python: ['3.x']
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -27,8 +27,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest pytest-timeout pytest-cov
         pip install flake8 black
-        pip install -e .
-        pip install gym bsuite matplotlib brax
+        pip install -e .[test]
+        pip install matplotlib 
         # Setup dependency for minatar tests
         git clone -n https://github.com/kenjyoung/MinAtar.git
         cd MinAtar
@@ -45,9 +45,3 @@ jobs:
     - name: Run unit/integration tests
       run: |
         python -m pytest -vv --all --durations=0 --cov=./ --cov-report=term-missing --cov-report=xml --ignore=tests/minatar/test_seaquest.py
-    - name: "Upload coverage to Codecov"
-      uses: codecov/codecov-action@v2
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-        fail_ci_if_error: true # optional (default = false)
-        verbose: true # optional (default = false)
