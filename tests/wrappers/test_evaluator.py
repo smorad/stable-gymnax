@@ -1,37 +1,32 @@
-"""Tests for evaluator wrapper."""
+"""Tests for evaluator wrapper without flax dependency."""
 
-import flax.linen as nn
 import jax
 import jax.numpy as jnp
 
 from gymnax.experimental import rollout
 
 
-class MLP(nn.Module):
-    """Simple MLP Wrapper with flexible output head."""
-
-    @nn.compact
-    def __call__(self, x, key):
-        # Loop over dense layers in forward pass
-        x = nn.Dense(features=8)(x)
-        x = nn.relu(x)
-        x = nn.Dense(features=1)(x)
-        x = nn.tanh(x)
-        return x
+def mlp_forward(params, x, key):
+    """Tiny MLP forward: (3,) -> (1,) with tanh output."""
+    W1, b1 = params["W1"], params["b1"]
+    W2, b2 = params["W2"], params["b2"]
+    x = jnp.tanh(x @ W1 + b1)
+    x = jnp.tanh(x @ W2 + b2)
+    return x.squeeze()
 
 
 def test_rollout():
     """Test rollout wrapper."""
     key = jax.random.key(0)
-    model = MLP()
-    pholder = jnp.zeros((3,))
-    policy_params = model.init(
-        key,
-        x=pholder,
-        key=key,
-    )
+    key1, key2 = jax.random.split(key)
+    policy_params = {
+        "W1": jax.random.normal(key1, (3, 8)) * 0.1,
+        "b1": jnp.zeros((8,)),
+        "W2": jax.random.normal(key2, (8, 1)) * 0.1,
+        "b2": jnp.zeros((1,)),
+    }
     manager = rollout.RolloutWrapper(
-        model.apply, env_name="Pendulum-v1", num_env_steps=200
+        mlp_forward, env_name="Pendulum-v1", num_env_steps=200
     )
 
     # Test simple single episode rollout

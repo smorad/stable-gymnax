@@ -8,7 +8,7 @@ from typing import Any
 
 import jax
 import jax.numpy as jnp
-from flax import struct
+from gymnax.utils import struct
 
 from gymnax.environments import environment, spaces
 

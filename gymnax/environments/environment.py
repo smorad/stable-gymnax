@@ -9,7 +9,7 @@ from typing import (
 )
 
 import jax
-from flax import struct
+from gymnax.utils import struct
 
 TEnvState = TypeVar("TEnvState", bound="EnvState")
 TEnvParams = TypeVar("TEnvParams", bound="EnvParams")
