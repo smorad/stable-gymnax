@@ -10,7 +10,7 @@ from typing import Any
 import jax
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
-from flax import struct
+from gymnax.utils import struct
 
 from gymnax.environments import environment, spaces
 

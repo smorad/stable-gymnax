@@ -12,7 +12,7 @@ import jax
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
 import seaborn as sns
-from flax import struct
+from gymnax.utils import struct
 from matplotlib import colors
 
 from gymnax.environments import environment, spaces
