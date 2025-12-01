@@ -1,8 +1,8 @@
 [project]
-name = "gymnax"
+name = "stable-gymnax"
 version = "0.0.9"
-description = "JAX implementations of OpenAI's gym environments"
-authors = [{ name = "Robert Tjarko Lange", email = "robertlange0@gmail.com" }]
+description = "(Stable) JAX implementations of OpenAI's gym environments"
+authors = [{ name = "Steven Morad", email = "stevenmorad@gmail.com" }]
 readme = "README.md"
 license = {text = "Apache-2.0"}
 requires-python = ">=3.10"
