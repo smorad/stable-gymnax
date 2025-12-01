@@ -31,7 +31,6 @@ dev = [
 ]
 test = [
     "chex",
-    "brax",
     "minatar",
 ]
 
@@ -44,7 +43,7 @@ include = ["gymnax*"]
 
 [tool.ruff]
 exclude = ["examples"]
-target-version = "py311"
+target-version = "py314"
 line-length = 88
 indent-width = 4
 
