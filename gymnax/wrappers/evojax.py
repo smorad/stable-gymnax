@@ -10,7 +10,7 @@ try:
 except Exception as exc:
     raise ImportError("You need to additionally install EvoJAX.") from exc
 
-from flax import struct
+from gymnax.utils import struct
 
 
 @struct.dataclass

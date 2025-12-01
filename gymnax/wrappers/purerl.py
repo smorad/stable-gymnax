@@ -6,7 +6,7 @@ from typing import Any
 import jax
 import jax.numpy as jnp
 import numpy as np
-from flax import struct
+from gymnax.utils import struct
 
 from gymnax.environments import environment, spaces
 
@@ -24,9 +24,6 @@ class GymnaxWrapper:
 
 class FlattenObservationWrapper(GymnaxWrapper):
     """Flatten the observations of the environment."""
-
-    #   def __init__(self, env: environment.Environment):
-    #     super().__init__(env)
 
     def observation_space(self, params) -> spaces.Box:
         assert isinstance(self._env.observation_space(params), spaces.Box), (
@@ -72,15 +69,12 @@ class LogEnvState:
 class LogWrapper(GymnaxWrapper):
     """Log the episode returns and lengths."""
 
-    #   def __init__(self, env: environment.Environment):
-    #     super().__init__(env)
-
     @partial(jax.jit, static_argnames=("self",))
     def reset(
         self, key: jax.Array, params: environment.EnvParams | None = None
     ) -> tuple[jax.Array, LogEnvState]:
         obs, env_state = self._env.reset(key, params)
-        state = LogEnvState(env_state, 0, 0, 0, 0)
+        state = LogEnvState(env_state, 0.0, 0, 0.0, 0)
         return obs, state
 
     @partial(jax.jit, static_argnames=("self",))
